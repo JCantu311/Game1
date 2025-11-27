@@ -48,9 +48,14 @@ int gameStart() {
     return 0;
 }
 
-int main() {
+int intro() {
     printf("Welcome.\n\n");
     system("py wait_script.py");
     gameStart();
+    return 0;
+}
+
+int main() {
+    intro();
     return 0;
 }
