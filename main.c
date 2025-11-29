@@ -7,6 +7,17 @@
   #include <unistd.h>
 #endif
 
+void spellOut(const char* message, int delay) {
+    for(int i = 0; i < strlen(message); ++i) {
+        printf("%c", message[i]);
+        #ifdef _WIN32
+            Sleep(delay);
+        #else
+            usleep(delay * 1000);
+        #endif
+    }
+}
+
 int menu() {
   restart:;
   #ifdef _WIN32
@@ -16,7 +27,7 @@ int menu() {
   #endif
   printf("-----------------------------------------------\n");
   printf("*                                             *\n");
-  printf("*                    Game 1                   *\n");
+  printf("*                 [Sh]ut In                   *\n");
   printf("*                                             *\n");
   printf("-----------------------------------------------\n\n");
   printf("Welcome to Game 1.\n\n");
@@ -27,20 +38,46 @@ int menu() {
   for(int i = 0; i < 2; ++i) {
     printf("\n");
   }
-  char choice;
-  scanf(" %c", &choice);
-  if (choice == 'S' || choice == 's') {
+  char choice[2];
+  printf(":");
+  scanf(" %s", &choice);
+  if (strcmp(choice, "S") == 0 || strcmp(choice, "s") == 0) {
     #ifdef _WIN32
       system("cls");
     #else
       system("clear");
     #endif
     system("game1.exe");
-  } else if (choice == 'E' || choice == 'e') {
+  } else if (strcmp(choice, "E") == 0 || strcmp(choice, "e") == 0) {
       system("exit");
-  } else {
+  } else if (strcmp(choice, "D") == 0 || strcmp(choice, "d") == 0) {
       system("start docs.html > nul");
       goto restart;
+  } else if (strcmp(choice, "sh") == 0 || strcmp(choice, "Sh") == 0|| strcmp(choice, "SH") == 0) {
+    char shush[] = "How dare you tell me to shush? ";
+    char terminating[] = "Terminating";
+    spellOut(shush, 85);
+    #ifdef _WIN32
+      Sleep(500);
+    #else
+      usleep(500 * 1000);
+    #endif
+    spellOut(terminating, 85);
+    for(int i = 0; i < 3; ++i) {
+        #ifdef _WIN32
+          Sleep(300);
+        #else
+          usleep(300 * 1000);
+        #endif
+        printf(".");
+    }
+    #ifdef _WIN32
+      Sleep(200);
+    #else
+      usleep(200 * 1000);
+    #endif
+  } else {
+    goto restart;
   }
   return 0;
 }
